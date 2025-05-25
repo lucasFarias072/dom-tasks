@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM</title>
+  <style>
+    body {
+      background: #ff9;
+      color: #111;
+    }
+    .flex {
+      display: flex;
+    }
+    .column {
+      flex-flow: column wrap;
+    }
+    .row {
+      flex-flow: row wrap;
+    }
+    .going-left {
+      align-items: flex-start;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .going-center {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .going-right {
+      align-items: flex-end;
+      justify-content: flex-end;
+      text-align: right;
+    }
+    .gap {
+      gap: 1rem;
+    }
+    b {
+      background: #ff7;
+      border-radius: .4rem;
+      color: crimson;
+      font-weight: 250;
+      padding: 0 .5rem;
+    }
+    .circle {
+      height: 5rem;
+      width: 5rem;
+      border-radius: 50%;
+      background: rgb(255, 222, 0);
+      border: #111 solid 2px;
+      color: #111;
+      font-size: 2rem;
+      font-weight: bolder;
+      margin: .5rem;
+      position: relative;
+      text-align: center;
+      transition: all linear .5s;
+    }
+    #botao-limpar {
+      background: rgb(200, 0, 0);
+      border: transparent solid 1px;
+      border-radius: .3rem;
+      box-shadow: 0 0 .5rem red;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+    #btn-count-tag-info {
+      color: crimson;
+      font-size: 3rem;
+      text-shadow: 0 0 0 .5rem red;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin: .2rem;
+    }
+    .html-tag {
+      background: rgb(255, 99, 0);
+      border: #111 solid 1px;
+      border-radius: .3rem;
+      color: black;
+      padding: .3rem;
+      letter-spacing: 1px;
+    }
+    input {
+      border: #111 solid 1px;
+      border-radius: .2rem;
+      margin: 1rem 1rem .5rem 0;
+      outline: none;
+      padding: 1rem;
+    }
+    .js-variable {
+      background: rgb(222, 222, 0);
+      border: #111 solid 1px;
+      border-radius: .3rem;
+      color: black;
+      padding: .3rem;
+      letter-spacing: 1px;
+    }
+    li {
+      color: purple;
+      list-style-position: inside;
+      margin: .4rem;
+      text-shadow: 0 0 .3rem purple;
+    }
+    .num {
+      background: rgb(0, 99, 99);
+      border: #222 solid 1.5px;
+      border-radius: .2rem;
+      color: yellow;
+      cursor: pointer;
+      margin: 0;
+      padding: .8rem;
+      height: .8rem;
+      width: 3.3rem;
+      transition: all linear .5s;
+    }
+    .num:hover {
+      background: rgba(0, 99, 99, .5);
+      color: aqua;
+    }
+    pre {
+      background: rgb(0, 99, 99);
+      border: gray solid 1px;
+      border-radius: .3rem;
+      color: #ff9;
+      cursor: pointer;
+      height: 7rem;
+      padding: .5rem;
+      text-shadow: 0 0 .3rem #ff9;
+    }
+    .q8-sample-tag {
+      color: black;
+    }
+    .question-ink {
+      background: rgb(5, 10, 15);
+      border-radius: .2rem;
+      color: yellow;
+      padding: .5rem 2rem;
+      text-align: justify;
+      text-shadow: 0 0 0 .5rem white;
+      width: 50%;
+    }
+    #sample-q5 {
+      background: rgb(0, 99, 99);
+      border: black solid 1px;
+      border-radius: .2rem;
+      padding: 1rem;
+    }
+    ul {
+      width: 100%;
+    }
+    .vanished {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="controllers" class="flex row going-center gap">
+    <button id="btn-left">voltar</button>
+    <button id="btn-right">avançar</button>
+  </div>
+
+  <div id="frame" class="flex column going-center">
+    
+    <div class="item vanished" id="q2">
+      <h2>Questão 2</h2>
+      
+      <div class="flex column going-left">
+        <p id="q2-label" class="question-ink">Crie dois exemplos usando os métodos do objeto document</p>
+        
+        <p id="q2-label-letter-a" class="flex column going-left">a) getElementById</p>
+        <div id="q2-letter-a-answer">
+          <p class="html-tag">&lt;p id='tag-por-id'&gt;tag por id&lt;/p&gt;</p>
+          <p class="js-variable">const tagPorId = document.getElementById('tag-por-id')</p>
+        </div>
+        
+        <p class="q2-label-b" class="flex column going-left">b) getElementsByTagName</p>
+        <div id="q2-letter-b-answer">
+          <p class="html-tag">&lt;span&gt;tag span&lt;/span&gt;</p>
+          <p class="html-tag">&lt;span&gt;tag span&lt;/span&gt;</p>
+          <p class="js-variable">const grupoSpans = document.getElementsByTagName('span')</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q3">
+      
+      <div id="q3-box" class="flex column going-center">
+        <h2>Questão 3</h2>
+        <p id="q3-label" class="question-ink">Crie um código que conte o número de parágrafos dentro de uma div e exiba o resultado em uma outra div</p>
+        
+        <div id="q3-buttons" class="flex row going-left gap">
+          <p>Qtd. de tags agora? <span id="btn-count-tag-info"></span></p>
+        </div>
+
+        <div id="q3-buttons" class="flex row going-left gap">
+          <button id="btn-create-tag-q3">criar tag</button>
+          <button id="btn-count-tag">contar tags</button>
+        </div>
+
+        <div id="q3-inputs" class="flex row going-left gap">
+          <input id="input-amount-tag" type="text" size="20" placeholder="digite qtd. de tags">
+          <input id="input-type-tag" type="text" size="20" placeholder="digite tipo da tag">
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q4">
+      <div class="flex column going-center">
+        <h2>Questão 4</h2>
+        <p class="question-ink">Crie um segundo botão chamado "limpar" que limpe o conteúdo do texto do parágrafo</p>
+        <p id="paragrafo">Clique no botão abaixo para alterar o texto deste parágrafo:</p>
+        <button id="botao">Clique aqui</button>
+        <button id="botao-limpar">limpar 🧹</button>
+      </div>
+    </div>
+    
+    <div class="item vanished" id="q5">
+      <div class="flex column going-left">
+        <h2>Questão 5</h2>
+        <p class="question-ink">Qual a diferença entre as propriedades "textContent", "innerText" e "innerHTML" dos elementos HTML? Cite exemplos</p>
+      
+        <h4>Exemplo</h4>
+        <div class="flex row gap">
+          <div id="sample-q5">
+            <i onclick="">tag b</i>
+            <br><br>
+            <p>     tag p     <span>tag span</span></p>
+            <span style="display: none;">tag span oculta</span>
+          </div>
+
+          <div class="flex column">
+            <h2>textContent 🖱️👇🏼</h2>
+            <pre id="box-textContent"></pre>
+          </div>
+          <div class="flex column">
+            <h2>innerText 🖱️👇🏼</h2>
+            <pre id="box-innerText"></pre>
+          </div>
+          <div class="flex column">
+            <h2>innerHTML 🖱️👇🏼</h2>
+            <pre id="box-innerHTML"></pre>
+          </div>
+
+          <ul>
+            <li><b>textContent</b>: 
+              exibe <b>conteúdo textual puro</b> embutido na tag + conteúdo de filhos se existir, 
+              mesmo que tenham css que as esconda, enquanto ignora sintaxes CSS, HTML, JS
+            </li>
+            <li><b>innerText</b>: 
+              exibe <b>conteúdo textual puro</b> embutido tag + conteúdo de filhos se existir, 
+              <b>esconde os textos que possuam css que os alteram</b>, assim como 
+              <b>retira formatações excedentes (ex: espaçamento)</b>, mas <b>respeita quebra de linhas</b>
+              enquanto ignora sintaxes CSS, HTML, JS
+            </li>
+            <li><b>innerHTML</b>:
+              exibe <b>todo o conteúdo da tag selecionada</b>, incluso as sintaxes CSS, HTML, JS, pois considera tudo como texto,
+              e ainda pode <b>remodelar o html alvo</b> via inclusão de novos dados
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q6">
+      <div class="flex column going-center">
+        <h2>Questão 6</h2>
+        <p class="question-ink">Crie um exemplo em que uma propriedade CSS de um elemento HTML é alterada via DOM baseada na documentação da página</p>
+
+        <div class="flex row gap">
+          <button class="btn-feature-q6 ft-border">cor da borda</button>
+          <button class="btn-feature-q6 ft-background">cor de fundo</button>
+          <button class="btn-feature-q6 ft-text">cor do texto</button>
+          <button class="btn-feature-q6 ft-up">cima</button>
+          <button class="btn-feature-q6 ft-down">baixo</button>
+          <button class="btn-feature-q6 ft-left">trás</button>
+          <button class="btn-feature-q6 ft-right">frente</button>
+        </div>
+
+        <div id="q6-shape">
+          <p class="circle">JS</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q7">
+      <div class="flex column going-center">
+        <h2>Questão 7</h2>
+        <p class="question-ink">Crie um código que copie um conteúdo de uma caixa de texto para a outra, só que em cacha alta</p>
+      
+        <div class="flex row going-left">
+          <input type="text" id="input-left-box-q7" placeholder="digite algo">
+          <input type="text" id="input-right-box-q7">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="item vanished" id="q8">
+      <div class="flex column going-center">
+        <h2>Questão 8</h2>
+        <p class="question-ink">
+          Crie um código que tenha um botão de alto contraste que alterne a cor de fundo do body 
+          para preto e cor do texto para branco. Adicionalmente crie um botão para resetar as cores originais
+        </p>
+
+        <div class="flex row going-center gap">
+          <h2 class="sample-tag-q8">Alto contraste</h2>
+          <button id="btn-dark-q8">alto contraste</button>
+          <button id="btn-light-q8">original</button>
+          <h2 class="sample-tag-q8">Original</h2>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="item vanished" id="q9">
+      <div class="flex column going-center">
+        <h2>Questão 9</h2>
+        <h2 id="body-font-size-q9"></h2>
+        <p class="question-ink">Crie um script acionado por botões que aumentam o tamanho do texto de toda a página e outro que faça o contrário</p>
+        <div class="flex row going-left">
+          <button id="font-size-plus-q9">diminuir fonte</button>
+          <button id="font-size-minus-q9">aumentar fonte</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q10">
+      <div class="flex column going-center">
+        <h2>Questão 10</h2>
+        <p class="question-ink">Crie uma pequena calculadora com as 4 operações. A operação deve ser selecionada de botões de radio. Para isso, teste a propriedade "selected" para descobrir qual operação está selecionada</p>
+        
+        <div id="q10-tutorial" class="flex column going-left">
+          <h4>Tutorial</h4>
+          <ul>
+            <li>sempre após clicar num número, aperte a tecla "espaço" para separar os operandos da operação</li>
+            <li>os operandos serão calculados sequencialmente e com base em uma única operação</li>
+            <li>para valores não inteiros, usar o botão do "ponto" entre o "0 e o espaço"</li>
+          </ul>
+        </div>
+
+        <div id="q9-calculator" class="flex column going-left">
+          <div class="flex row gap">
+            <input type="text" id="input-calculator">
+          </div>
+          
+          <div class="row-a flex row going-left">
+            <p class="num">1</p>
+            <p class="num">2</p>
+            <p class="num">3</p>
+          </div>
+          <div class="row-a flex row going-left">
+            <p class="num">4</p>
+            <p class="num">5</p>
+            <p class="num">6</p>
+          </div>
+          <div class="row-a flex row going-left">
+            <p class="num">7</p>
+            <p class="num">8</p>
+            <p class="num">9</p>
+          </div>
+          <div class="row-a flex row going-left">
+            <p class="num">0</p>
+            <p class="num">.</p>
+            <p class="num">espaço</p>
+          </div>
+        </div>
+        
+        <div id="q9-operations" class="flex row going-left gap">
+          <form action="index.html" class="flex row gap">
+            <div class="flex column">
+              <label for="op-+">somar</label>
+              <input type="radio" id="op-+" name="calc" value="+">
+            </div>
+          
+            <div class="flex column">
+              <label for="op-">subtrair</label>
+              <input type="radio" id="op-" name="calc" value="-">
+            </div>
+
+            <div class="flex column">
+              <label for="op-/">dividir</label>
+              <input type="radio" id="op-/" name="calc"  value="/">
+            </div>
+
+            <div class="flex column">
+              <label for="op-*">multiplicar</label>
+              <input type="radio" id="op-*" name="calc" value="*">
+            </div>
+
+            <div class="flex column">
+              <label for="op-pow">potência</label>
+              <input type="radio" id="op-pow" name="calc" value="pow">
+            </div>
+
+            <button id="btn-calculator" type="button">calcular</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="item vanished" id="q11">
+      <div class="flex column going-center gap">
+        <h2>Questão 11</h2>
+        <p class="question-ink">Pesquise como criar elementos e adicione o conteúdo de uma caixa de texto em uma lista não ordenada</p>
+        
+        <div class="flex row">
+          <input id="input-create-tag-q11" type="text" placeholder="digite algo p/ lista ordenada" size="30">
+          <button id="btn-create-tag-q11">criar tag</button>
+        </div>
+
+        
+        <div class="flex row going-left">
+          <h3>Lista não ordenada</h3>
+        </div>
+
+        <ul id="unordered-list-q11" class="flex column going-left"></ul>
+        
+      </div>
+    </div>
+
+    <div class="item vanished" id="q12">
+      <div class="flex column going-center gap">
+        <h2>Questão 12</h2>
+        <p class="question-ink">Repita o exercício anterior adicionando o conteúdo da caixa de texto em um elemento de um "select"</p>
+        
+        <div class="flex row">
+          <input id="input-create-tag-q12" type="text" placeholder="digite algo p/ lista ordenada" size="30">
+          <button id="btn-create-tag-q12">criar tag</button>
+        </div>
+
+        <div class="flex row going-left">
+          <h3>Opções do menu dropdown</h3>
+        </div>
+        <select name="" id="select-dropdown-q12">
+          
+        </select>
+        
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    window.onload = function() {
+      class Util {
+        constructor() {
+          this.letters = 'a.b.c.d.e.f.0.1.2.3.4.5.6.7.8.9'.split('.')
+        }
+
+        addTag(container, amount, tagType, nickname, text='', isDynamicText=true) {
+          for(let i = 0; i < amount; i++) {
+            const genericTag = document.createElement(tagType)
+            genericTag.setAttribute('class', nickname) 
+            genericTag.textContent = !isDynamicText ? text : this.makeHexText()
+            genericTag.style.background = this.makeHexText()
+            genericTag.style.borderRadius = '.5rem'
+            genericTag.style.margin = '.5rem'
+            genericTag.style.padding = '.5rem'
+            genericTag.style.textShadow = '0 0 0 .5rem #222'
+            genericTag.style.width = '50%'
+            container.appendChild(genericTag)
+          }
+        }
+
+        addDropdown(container, text='void') {
+          const genericTag = document.createElement('option')
+          const color = this.makeHexText()
+          genericTag.textContent = text
+          genericTag.value = genericTag.textContent.substring(0, 5)
+          genericTag.style.background = color
+          genericTag.style.borderRadius = '.2rem'
+          genericTag.style.padding = '.5rem'
+          container.appendChild(genericTag)
+        }
+
+        createShape(shapeClass) {
+          let shape = document.createElement('p')
+          shape.classList.add(shapeClass)
+          return shape
+        }
+
+        createTagById(where, tagType) {
+          const tagById = document.createElement(tagType)
+          const txt = this.makeHexText()
+          tagById.setAttribute('id', `${txt}`)
+          tagById.setAttribute('class', 'expand')
+          tagById.textContent = txt
+          where.appendChild(tagById) 
+        }
+
+        getRandomIndice(tail, head) {
+          return Math.floor(Math.random() * (head - tail) + tail)
+        }
+
+        makeHexText() {
+          let txt = '#'
+          for(let i = 0; i < 6; i++) {
+            txt += this.letters[this.getRandomIndice(0, this.letters.length)]
+          }
+          return txt
+        }
+      
+        slide(btnLeft, btnRight, targetTag) {
+          let currentSlide = -1
+
+          btnRight.addEventListener('click', () => {
+            if(currentSlide < targetTag.length) {
+              currentSlide++
+              for(let i = 0; i < targetTag.length; i++) {
+                if(i === currentSlide) {
+                  targetTag[i].classList.remove('vanished')
+                } else {
+                  targetTag[i].classList.add('vanished')
+                }
+              }
+            }
+          })
+          
+          btnLeft.addEventListener('click', () => {
+            if(currentSlide >= 1) {
+              currentSlide--
+              for(let i = 0; i < targetTag.length; i++) {
+                if(i === currentSlide) {
+                  targetTag[i].classList.remove('vanished')
+                } else {
+                  targetTag[i].classList.add('vanished')
+                }
+              }
+            }
+          })
+        }
+      }
+    
+      class Question2 {
+        constructor() {
+          this.util = new Util()
+        }
+
+        init() {
+          
+        }
+      }
+
+      class Question3 {
+        constructor(btnCreateTag, btnCountTag, tagAmountInput, tagTypeInput, tagForCounting) {
+          this.util = new Util()
+          this.btnCreateTag = btnCreateTag
+          this.btnCountTag = btnCountTag
+          this.tagAmountInput = tagAmountInput
+          this.tagTypeInput = tagTypeInput
+          this.tagForCounting = tagForCounting
+        }
+
+        init() {
+          this.btnCreateTag.addEventListener('click', () => {
+            this.util.addTag(document.getElementById('q3-box'), this.tagAmountInput.value, this.tagTypeInput.value, 'generic-tag')
+          })
+
+          this.btnCountTag.addEventListener('click', () => {
+            this.tagForCounting.textContent = document.querySelectorAll('.generic-tag').length
+          })
+          
+        }
+      }
+
+      class Question4 {
+        constructor(botao, botaoLimpar) {
+          this.botao = botao
+          this.botaoLimpar = botaoLimpar
+        }
+        
+        init() {
+          this.botao.addEventListener('click', function() {
+            var paragrafo = document.getElementById('paragrafo')
+            paragrafo.textContent = 'O texto deste parágrafo foi alterado!'
+          })
+
+          this.botaoLimpar.addEventListener('click', function() {
+            var paragrafo = document.getElementById('paragrafo')
+            paragrafo.textContent = ''
+          })
+        }
+      }
+      
+      class Question5 {
+        constructor(sampleTxt, boxTextContent, boxInnerText, boxInnerHTML) {
+          this.util = new Util()
+          this.sampleTxt = sampleTxt
+          this.boxTextContent = boxTextContent
+          this.boxInnerText = boxInnerText
+          this.boxInnerHTML = boxInnerHTML
+        }
+
+        init() {
+          this.boxTextContent.addEventListener('click', () => {
+            this.boxTextContent.textContent = this.sampleTxt.textContent
+          })
+
+          this.boxInnerHTML.addEventListener('click', () => {
+            this.boxInnerHTML.textContent = this.sampleTxt.innerHTML
+            this.sampleTxt.innerHTML = this.boxInnerHTML.textContent + '<sup>🔴🟡🟢</sup>'
+          })
+
+          this.boxInnerText.addEventListener('click', () => {
+            this.boxInnerText.textContent = this.sampleTxt.innerText
+          })
+        }
+      }
+
+      class Question6 {
+        constructor(btnCommandsGroup, tagUnderControl) {
+          this.util = new Util()
+          this.btnCommandsGroup = btnCommandsGroup
+          this.tagUnderControl = tagUnderControl
+        }
+        
+        init() {
+          this.btnCommandsGroup.forEach((btn, pos) => {
+            switch (pos) {
+              case 0: 
+                btn.addEventListener('click', () => {this.tagUnderControl.style.border = `${this.util.makeHexText()} solid 2px`})
+                break
+              case 1:
+                btn.addEventListener('click', () => {this.tagUnderControl.style.background = this.util.makeHexText()})
+                break
+              case 2:
+                btn.addEventListener('click', () => {this.tagUnderControl.style.color = this.util.makeHexText()})
+                break
+              case 3:
+                btn.addEventListener('click', () => {
+                  this.tagUnderControl.style.top = `${parseInt(window.getComputedStyle(this.tagUnderControl).top.split('px')[0]) - 15}px`
+                })
+                break
+              case 4:
+                btn.addEventListener('click', () => {
+                  this.tagUnderControl.style.top = `${parseInt(window.getComputedStyle(this.tagUnderControl).top.split('px')[0]) + 15}px`
+                })
+                break
+              case 5:
+                btn.addEventListener('click', () => {
+                  this.tagUnderControl.style.left = `${parseInt(window.getComputedStyle(this.tagUnderControl).left.split('px')[0]) - 15}px`
+                })
+                break
+              case 6:
+                btn.addEventListener('click', () => {
+                  this.tagUnderControl.style.left = `${parseInt(window.getComputedStyle(this.tagUnderControl).left.split('px')[0]) + 15}px`
+                })
+                break
+              default:
+                console.log('...')
+            }
+          })
+        }
+      }
+
+      class Question7 {
+        constructor(originalInput, cloneUppercaseInput) {
+          this.util = new Util()
+          this.originalInput = originalInput
+          this.cloneUppercaseInput = cloneUppercaseInput
+        }
+
+        init() {
+          this.originalInput.addEventListener('keydown', () => {
+            this.cloneUppercaseInput.style.background = this.util.makeHexText()
+          })
+          
+          const loop = setInterval(() => {
+            if (this.originalInput.value != "") {
+              this.cloneUppercaseInput.value = this.originalInput.value.toUpperCase()
+            } else {
+              this.cloneUppercaseInput.value = ''
+              this.cloneUppercaseInput.style.background = 'inherit'
+            }
+          }, 500)
+        }
+      }
+
+      class Question8 {
+        constructor(btnDarkTheme, btnLightTheme) {
+          this.btnDarkTheme = btnDarkTheme
+          this.btnLightTheme = btnLightTheme
+        }
+
+        init(btnDarkTheme, btnLightTheme) {
+          this.btnDarkTheme.addEventListener('click', () => {
+            document.body.style.background = '#111'
+            document.body.style.color = 'white'
+          })
+
+          this.btnLightTheme.addEventListener('click', () => {
+
+            document.body.style.background = '#ff9'
+            document.body.style.color = '#111'
+          })
+        }
+      }
+
+      class Question9 {
+        constructor(btnFontSizeLess, btnFontSizeMore, tagForWatchingSize) {
+          this.util = new Util()
+          this.btnFontSizeLess = btnFontSizeLess 
+          this.btnFontSizeMore = btnFontSizeMore
+          this.tagForWatchingSize = tagForWatchingSize
+        }
+
+        init(btnFontSizeLess, btnFontSizeMore) {
+          const body = [...document.getElementsByTagName('body')]
+          
+          this.btnFontSizeLess.addEventListener('click', () => {
+            body[0].style.fontSize = `${parseFloat(window.getComputedStyle(body[0]).fontSize.split('px')[0]) - 0.1}px`
+            this.tagForWatchingSize.textContent = body[0].style.fontSize
+          })
+
+          this.btnFontSizeMore.addEventListener('click', () => {
+            body[0].style.fontSize = `${parseFloat(window.getComputedStyle(body[0]).fontSize.split('px')[0]) + 0.1}px`
+            this.tagForWatchingSize.textContent = body[0].style.fontSize
+          })
+
+        }
+      }
+
+      class Question10 {
+        constructor(numbers, triggerBtn, resultContainer) {
+          this.numbers = numbers
+          this.triggerBtn = triggerBtn
+          this.resultContainer = resultContainer
+        }
+
+        initEngine() {
+          Array.from(this.numbers).forEach((number, pos) => {
+            number.addEventListener('click', () => {
+              if (pos < this.numbers.length - 1) {
+                this.resultContainer.value = `${this.resultContainer.value}${number.textContent}`
+              } else {
+                this.resultContainer.value = `${this.resultContainer.value} `
+              }
+            })
+          })
+        }
+
+        calculateArray(operation) {
+          const numbers = this.resultContainer.value.split(' ')
+          for(let i = 0; i < numbers.length; i++) {numbers[i] = parseFloat(numbers[i])}
+          let calculus = numbers[0]
+          
+          for(let i = 1; i < numbers.length; i++) {
+            if (operation === '+') calculus += numbers[i]
+            if (operation === '-') calculus -= numbers[i]
+            if (operation === '/') calculus /= numbers[i]
+            if (operation === '*') calculus *= numbers[i]
+            if (operation === 'pow') calculus += Math.pow(calculus, numbers[i]) - calculus
+          }
+          return calculus
+        }
+
+        init() {
+          this.triggerBtn.addEventListener('click', () => {
+            const operation = document.querySelector('input[name="calc"]:checked').value
+            
+            switch(operation) {
+            case '+':
+              this.resultContainer.value = this.calculateArray(operation)
+              break
+            case '-':
+              this.resultContainer.value = this.calculateArray(operation)
+              break
+            case '/':
+              this.resultContainer.value = this.calculateArray(operation)
+              break
+            case '*':
+              this.resultContainer.value = this.calculateArray(operation)
+              break
+            case 'pow':
+              this.resultContainer.value = this.calculateArray(operation)
+              break
+            default:
+              console.log('nenhum')
+          }
+          })
+        }
+      }
+
+      class Question11 {
+        constructor(inputToCreateTag, btnToCreateTag, listToShelterContent) {
+          this.util = new Util()
+          this.inputToCreateTag = inputToCreateTag
+          this.btnToCreateTag = btnToCreateTag
+          this.listToShelterContent = listToShelterContent
+        }
+
+        init() {
+          this.btnToCreateTag.addEventListener('click', () => {
+            if (this.inputToCreateTag.value != '') {
+              this.util.addTag(this.listToShelterContent, 1, 'li', '', this.inputToCreateTag.value, false)
+            }
+          })
+        }
+      }
+
+      class Question12 {
+        constructor(inputToCreateTag, btnToCreateTag, dropdownToShelterContent) {
+          this.util = new Util()
+          this.inputToCreateTag = inputToCreateTag
+          this.btnToCreateTag = btnToCreateTag
+          this.dropdownToShelterContent = dropdownToShelterContent
+        }
+
+        init() {
+          this.btnToCreateTag.addEventListener('click', () => {
+            if (this.inputToCreateTag.value != '') {
+              this.util.addDropdown(this.dropdownToShelterContent, this.inputToCreateTag.value)
+            }
+          })
+        }
+      }
+
+      const div = document.getElementById('sample-q5');
+
+      const frame = document.getElementById('frame')
+      const goLeft = document.getElementById('btn-left')
+      const goRight = document.getElementById('btn-right')
+      const items = document.querySelectorAll('.item')
+      const calculatorNumbers = document.querySelectorAll('.num')
+
+      const util = new Util().slide(goLeft, goRight, items)
+      
+      const qst3 = new Question3(
+        document.getElementById('btn-create-tag-q3'),
+        document.getElementById('btn-count-tag'),
+        document.getElementById('input-amount-tag'),
+        document.getElementById('input-type-tag'),
+        document.getElementById('btn-count-tag-info')
+      ).init()
+
+      const qst4 = new Question4(
+        document.getElementById('botao'),
+        document.getElementById('botao-limpar')
+      ).init()
+
+      const qst5 = new Question5(
+        document.getElementById('sample-q5'),
+        document.getElementById('box-textContent'),
+        document.getElementById('box-innerText'),
+        document.getElementById('box-innerHTML'),
+      ).init()
+
+      const qst6 = new Question6(
+        Array.from(document.querySelectorAll('.btn-feature-q6')),
+        document.querySelector('.circle')
+      ).init()
+
+      const qst7 = new Question7(
+        document.getElementById('input-left-box-q7'),
+        document.getElementById('input-right-box-q7')
+      ).init()
+
+      const qst8 = new Question8(
+        document.getElementById('btn-dark-q8'),
+        document.getElementById('btn-light-q8')
+      ).init()
+
+      const qst9 = new Question9(
+        document.getElementById('font-size-plus-q9'),
+        document.getElementById('font-size-minus-q9'),
+        document.getElementById('body-font-size-q9')
+      ).init()
+
+      const qst10 = new Question10(
+        Array.from(calculatorNumbers), 
+        document.getElementById('btn-calculator'), 
+        document.getElementById('input-calculator')
+      )
+      qst10.initEngine()
+      qst10.init()
+      
+      const qst11 = new Question11(
+        document.getElementById('input-create-tag-q11'),
+        document.getElementById('btn-create-tag-q11'),
+        document.getElementById('unordered-list-q11')
+      ).init()
+      
+      const qst12 = new Question12(
+        document.getElementById('input-create-tag-q12'),
+        document.getElementById('btn-create-tag-q12'),
+        document.getElementById('select-dropdown-q12')
+      ).init()
+    }
+    
+  </script>
+</body>
+</html>
